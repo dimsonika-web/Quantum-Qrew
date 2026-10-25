@@ -91,11 +91,11 @@
         <nav>
             <div class="logo">QUANTUM <span>LINK</span></div>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="work-experience.html">Work Experience</a></li>
-                <li><a href="practical-skills.html" class="active">Practical Skills</a></li>
-                <li><a href="career-guidance.html">Career Guidance</a></li>
-                <li><a href="employment-resources.html">Employment Resources</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="experience.php">Work Experience</a></li>
+                <li><a href="skills.php" class="active">Practical Skills</a></li>
+                <li><a href="guidance.php">Career Guidance</a></li>
+                <li><a href="resources.php">Employment Resources</a></li>
             </ul>
         </nav>
     </header>
@@ -142,7 +142,7 @@
                     <span class="skill-tag">Excel & Spreadsheets</span>
                 </div>
                 <p>From coding fundamentals to data literacy, these courses give you the technical foundation modern employers expect. Learn at your own pace with guided projects.</p>
-                <a href="#" class="skill-link">View Digital Skills Courses →</a>
+                <a href="resources.php#learning" class="skill-link">View Digital Skills Courses →</a>
             </div>
 
             <div class="skill-category">
@@ -156,7 +156,7 @@
                     <span class="skill-tag">Emotional Intelligence</span>
                 </div>
                 <p>Soft skills are the differentiator in every job interview. Develop the interpersonal abilities that set top performers apart from the rest.</p>
-                <a href="#" class="skill-link">View Soft Skills Workshops →</a>
+                <a href="resources.php#learning" class="skill-link">View Soft Skills Workshops →</a>
             </div>
 
             <div class="skill-category">
@@ -169,7 +169,7 @@
                     <span class="skill-tag">Customer Relations</span>
                 </div>
                 <p>Understand how businesses operate, manage projects effectively, and communicate value. These skills are transferable across every industry.</p>
-                <a href="#" class="skill-link">View Business Skills →</a>
+                <a href="resources.php#learning" class="skill-link">View Business Skills →</a>
             </div>
 
             <div class="skill-category">
@@ -182,7 +182,7 @@
                     <span class="skill-tag">Copywriting</span>
                 </div>
                 <p>Express your creative side with tools and techniques used by professionals. Build a portfolio that showcases your unique talents to potential employers.</p>
-                <a href="#" class="skill-link">View Creative Skills →</a>
+                <a href="resources.php#learning" class="skill-link">View Creative Skills →</a>
             </div>
 
             <div class="skill-category">
@@ -195,7 +195,7 @@
                     <span class="skill-tag">Networking</span>
                 </div>
                 <p>Master the art of presenting yourself to employers. From crafting a standout resume to acing your next interview — everything you need to land the role.</p>
-                <a href="#" class="skill-link">View Career Readiness →</a>
+                <a href="resources.php#career-planning" class="skill-link">View Career Readiness →</a>
             </div>
         </div>
 
@@ -203,12 +203,12 @@
         <div class="cta-section">
             <h2>Start Building Your Skill Set Today</h2>
             <p>Access free introductory modules or enrol in full certification courses. Your future career starts with one skill at a time.</p>
-            <a href="#" class="cta-btn">Browse All Courses</a>
+            <a href="resources.php#learning" class="cta-btn">Browse Learning Resources</a>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Quantum Link. All rights reserved. | <a href="index.html">Back to Home</a></p>
+        <p>&copy; 2026 Quantum Link. All rights reserved. | <a href="index.php">Back to Home</a></p>
     </footer>
 
 </body>
