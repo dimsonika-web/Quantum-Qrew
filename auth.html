@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In / Register – Quantum Link</title>
+    <meta name="description"
+        content="Sign in or create a Quantum Link account to access career development tools, work experience listings, and expert guidance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1a1a2e;
+            --navy-dark: #12122a;
+            --navy-mid: #16213e;
+            --cyan: #00d4ff;
+            --cyan-dark: #00b8d9;
+            --cyan-glow: rgba(0, 212, 255, 0.18);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.10);
+            --text-light: #e8eaf0;
+            --text-muted: #8892a4;
+            --error: #ff5c73;
+            --success: #00e5b0;
+            --radius: 16px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--navy-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Background orbs */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.25;
+            animation: drift 12s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #0f3460, transparent);
+            top: -150px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #00d4ff, transparent);
+            bottom: -100px;
+            right: -80px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #533483, transparent);
+            top: 50%;
+            left: 60%;
+            animation-delay: -3s;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(30px, -30px) scale(1.08);
+            }
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--cyan);
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--cyan);
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 460px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 212, 255, 0.06);
+            animation: fadeUp 0.5s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-strip {
+            display: flex;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tab-strip button {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.65rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .tab-strip button.active {
+            background: var(--cyan);
+            color: var(--navy-dark);
+            box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .panel h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            color: #fff;
+        }
+
+        .panel .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .demo-banner {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--cyan);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .field {
+            margin-bottom: 1.2rem;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.45rem;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .field .input-wrapper {
+            position: relative;
+        }
+
+        .field .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .field input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-family: inherit;
+            font-size: 0.95rem;
+            padding: 0.75rem 2.6rem;
+            transition: border-color var(--transition), box-shadow var(--transition);
+            outline: none;
+        }
+
+        .field input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        .field input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px var(--cyan-glow);
+        }
+
+        .field input.invalid {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(255, 92, 115, 0.15);
+        }
+
+        .field .toggle-pw {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color var(--transition);
+            line-height: 1;
+            padding: 0;
+        }
+
+        .field .toggle-pw:hover {
+            color: var(--cyan);
+        }
+
+        .field-error {
+            display: block;
+            color: var(--error);
+            font-size: 0.78rem;
+            margin-top: 0.35rem;
+            min-height: 1.1em;
+        }
+
+        .strength-bar {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .strength-bar span {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--glass-border);
+            transition: background var(--transition);
+        }
+
+        .strength-bar span.fill-weak {
+            background: var(--error);
+        }
+
+        .strength-bar span.fill-medium {
+            background: #f59e0b;
+        }
+
+        .strength-bar span.fill-strong {
+            background: var(--success);
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.84rem;
+        }
+
+        .row label {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .row input[type="checkbox"] {
+            accent-color: var(--cyan);
+            width: 14px;
+            height: 14px;
+        }
+
+        .row a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .row a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            border: none;
+            border-radius: 10px;
+            color: var(--navy-dark);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0.9rem;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0, 212, 255, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(26, 26, 46, 0.4);
+            border-top-color: var(--navy-dark);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto;
+        }
+
+        .btn-primary.loading .btn-label {
+            display: none;
+        }
+
+        .btn-primary.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--navy-mid);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 0.8rem 1.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            max-width: 340px;
+            text-align: center;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #toast.success {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        #toast.error {
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 1.5rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        footer a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border);
+        }
+
+        @media (max-width: 500px) {
+            .auth-card {
+                padding: 1.8rem 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-orbs" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">QUANTUM <span>LINK</span></a>
+            <a href="index.html" class="back-link">&#8592; Back to Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="auth-card" role="main">
+
+            <!-- Tab Strip -->
+            <div class="tab-strip" role="tablist" aria-label="Authentication options">
+                <button id="tab-login" class="active" role="tab" aria-selected="true" aria-controls="panel-login"
+                    onclick="switchTab('login')">Sign In</button>
+                <button id="tab-register" class="" role="tab" aria-selected="false" aria-controls="panel-register"
+                    onclick="switchTab('register')">Register</button>
+            </div>
+
+            <!-- LOGIN PANEL -->
+            <div id="panel-login" class="panel active" role="tabpanel" aria-labelledby="tab-login">
+                <h2>Welcome back &#128075;</h2>
+                <p class="subtitle">Sign in to your Quantum Link account</p>
+
+                <div class="demo-banner" role="note">
+                    <span>&#128273;</span>
+                    <span><strong>Demo account:</strong> demo@quantumlink.com &nbsp;/&nbsp; pass:
+                        <strong>demo123</strong></span>
+                </div>
+
+                <form id="form-login" novalidate>
+                    <div class="field">
+                        <label for="login-email">Email address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">&#9993;</span>
+                            <input type="email" id="login-email" name="email" autocomplete="email"
+                                placeholder="you@example.com" required>
+                        </div>
+                        <span class="field-error" id="err-login-email" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">&#128274;</span>
+                            <input type="password" id="login-password" name="password" autocomplete="current-password"
+                                placeholder="Enter your password" required>
+                            <button type="button" class="toggle-pw" aria-label="Toggle password visibility"
+                                onclick="togglePw('login-password', this)">&#128065;</button>
+                        </div>
+                        <span class="field-error" id="err-login-password" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="row">
+                        <label><input type="checkbox" id="login-remember"> Remember me</label>
+                        <a href="#" onclick="showForgot(); return false;">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="btn-login">
+                        <span class="btn-label">Sign In &#8594;</span>
+                        <span class="spinner" aria-hidden="true"></span>
+                    </button>
+                </form>
+
+                <div class="divider">or</div>
+                <p style="text-align:center; font-size:0.88rem; color:var(--text-muted);">
+                    Don't have an account? <a href="#" onclick="switchTab('register'); return false;"
+                        style="color:var(--cyan); font-weight:600;">Register now</a>
+                </p>
+            </div>
+
+            <!-- REGISTER PANEL -->
+            <div id="panel-register" class="panel" role="tabpanel" aria-labelledby="tab-register">
+                <h2>Create account &#10024;</h2>
+                <p class="subtitle">Join Quantum Link &mdash; it's completely free</p>
+
+                <form id="form-register" novalidate>
+                    <div class="field">
+                        <label for="reg-name">Full name</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">&#128100;</span>
+                            <input type="text" id="reg-name" name="name" autocomplete="name" placeholder="Jane Smith"
+                                required>
+                        </div>
+                        <span class="field-error" id="err-reg-name" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="reg-email">Email address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">&#9993;</span>
+                            <input type="email" id="reg-email" name="email" autocomplete="email"
+                                placeholder="you@example.com" required>
+                        </div>
+                        <span class="field-error" id="err-reg-email" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="reg-password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">&#128274;</span>
+                            <input type="password" id="reg-password" name="password" autocomplete="new-password"
+                                placeholder="Min. 6 characters" required oninput="checkStrength(this.value)">
+                            <button type="button" class="toggle-pw" aria-label="Toggle password visibility"
+                                onclick="togglePw('reg-password', this)">&#128065;</button>
+                        </div>
+                        <div class="strength-bar" id="strength-bar" aria-hidden="true">
+                            <span id="s1"></span><span id="s2"></span><span id="s3"></span><span id="s4"></span>
+                        </div>
+                        <span class="field-error" id="err-reg-password" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="field">
+                        <label for="reg-confirm">Confirm password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">&#128274;</span>
+                            <input type="password" id="reg-confirm" name="confirm" autocomplete="new-password"
+                                placeholder="Repeat your password" required>
+                            <button type="button" class="toggle-pw" aria-label="Toggle password visibility"
+                                onclick="togglePw('reg-confirm', this)">&#128065;</button>
+                        </div>
+                        <span class="field-error" id="err-reg-confirm" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="row" style="margin-bottom:1.5rem;">
+                        <label>
+                            <input type="checkbox" id="reg-terms" required>
+                            I agree to the <a href="#" style="color:var(--cyan);">Terms of Service</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="btn-register">
+                        <span class="btn-label">Create Account &#8594;</span>
+                        <span class="spinner" aria-hidden="true"></span>
+                    </button>
+                </form>
+
+                <div class="divider">or</div>
+                <p style="text-align:center; font-size:0.88rem; color:var(--text-muted);">
+                    Already have an account? <a href="#" onclick="switchTab('login'); return false;"
+                        style="color:var(--cyan); font-weight:600;">Sign in</a>
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <footer>
+        <p>&copy; 2026 Quantum Link. All rights reserved. | <a href="index.html">Back to Home</a></p>
+    </footer>
+
+    <script>
+        /* ============================================================
+           QUANTUM LINK - Demo Auth System
+           Storage: localStorage (demo only - NOT production-safe)
+        ============================================================ */
+
+        const DEMO_USER = {
+            id: 'demo-001',
+            name: 'Demo User',
+            email: 'demo@quantumlink.com',
+            password: 'demo123',
+            created: '2026-01-01'
+        };
+
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('ql_users') || '[]');
+        }
+        function saveUsers(users) {
+            localStorage.setItem('ql_users', JSON.stringify(users));
+        }
+
+        // Seed demo account on first visit
+        (function seedDemo() {
+            const users = getUsers();
+            if (!users.find(u => u.email === DEMO_USER.email)) {
+                users.push(DEMO_USER);
+                saveUsers(users);
+            }
+        })();
+
+        // Tab switching
+        function switchTab(tab) {
+            ['login', 'register'].forEach(p => {
+                document.getElementById('panel-' + p).classList.toggle('active', p === tab);
+                const btn = document.getElementById('tab-' + p);
+                btn.classList.toggle('active', p === tab);
+                btn.setAttribute('aria-selected', p === tab ? 'true' : 'false');
+            });
+            clearAllErrors();
+        }
+
+        // Password visibility
+        function togglePw(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = String.fromCodePoint(0x1F648);
+                btn.setAttribute('aria-label', 'Hide password');
+            } else {
+                input.type = 'password';
+                btn.textContent = String.fromCodePoint(0x1F441);
+                btn.setAttribute('aria-label', 'Show password');
+            }
+        }
+
+        // Password strength meter
+        function checkStrength(pw) {
+            let score = 0;
+            if (pw.length >= 6) score++;
+            if (pw.length >= 10) score++;
+            if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+            if (/\d/.test(pw) || /[^A-Za-z0-9]/.test(pw)) score++;
+            const classes = ['fill-weak', 'fill-medium', 'fill-medium', 'fill-strong'];
+            ['s1', 's2', 's3', 's4'].forEach((id, i) => {
+                const el = document.getElementById(id);
+                el.className = i < score ? classes[Math.min(score - 1, 3)] : '';
+            });
+        }
+
+        function showError(id, msg) { const el = document.getElementById(id); if (el) el.textContent = msg; }
+        function clearError(id) { const el = document.getElementById(id); if (el) el.textContent = ''; }
+        function markInput(el, invalid) { el.classList.toggle('invalid', invalid); }
+        function clearAllErrors() {
+            document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+            document.querySelectorAll('input').forEach(el => el.classList.remove('invalid'));
+        }
+
+        let toastTimer;
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'show ' + (type || 'success');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.className = '', 3500);
+        }
+
+        function fakeRequest(ms) {
+            return new Promise(r => setTimeout(r, ms || 900));
+        }
+
+        function showForgot() {
+            const email = document.getElementById('login-email').value.trim();
+            if (email) {
+                showToast('Password reset link sent to ' + email + ' (demo)', 'success');
+            } else {
+                showToast('Enter your email first, then click Forgot password?', 'error');
+            }
+        }
+
+        // LOGIN
+        document.getElementById('form-login').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            clearAllErrors();
+
+            const emailEl = document.getElementById('login-email');
+            const pwEl = document.getElementById('login-password');
+            const email = emailEl.value.trim().toLowerCase();
+            const pw = pwEl.value;
+            const btn = document.getElementById('btn-login');
+            let valid = true;
+
+            if (!email) {
+                showError('err-login-email', 'Email is required.'); markInput(emailEl, true); valid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showError('err-login-email', 'Enter a valid email address.'); markInput(emailEl, true); valid = false;
+            }
+            if (!pw) {
+                showError('err-login-password', 'Password is required.'); markInput(pwEl, true); valid = false;
+            }
+            if (!valid) return;
+
+            btn.classList.add('loading'); btn.disabled = true;
+            await fakeRequest();
+
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === pw);
+
+            btn.classList.remove('loading'); btn.disabled = false;
+
+            if (user) {
+                const session = { id: user.id, name: user.name, email: user.email, loggedInAt: new Date().toISOString() };
+                if (document.getElementById('login-remember').checked) {
+                    localStorage.setItem('ql_session', JSON.stringify(session));
+                } else {
+                    sessionStorage.setItem('ql_session', JSON.stringify(session));
+                }
+                showToast('Welcome back, ' + user.name + '!', 'success');
+                setTimeout(function () { window.location.href = 'index.html'; }, 1200);
+            } else {
+                showError('err-login-password', 'Incorrect email or password.');
+                markInput(pwEl, true); markInput(emailEl, true);
+                showToast('Invalid credentials. Try the demo account!', 'error');
+            }
+        });
+
+        // REGISTER
+        document.getElementById('form-register').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            clearAllErrors();
+
+            const nameEl = document.getElementById('reg-name');
+            const emailEl = document.getElementById('reg-email');
+            const pwEl = document.getElementById('reg-password');
+            const confirmEl = document.getElementById('reg-confirm');
+            const termsEl = document.getElementById('reg-terms');
+            const btn = document.getElementById('btn-register');
+
+            const name = nameEl.value.trim();
+            const email = emailEl.value.trim().toLowerCase();
+            const pw = pwEl.value;
+            const confirm = confirmEl.value;
+            let valid = true;
+
+            if (!name || name.length < 2) {
+                showError('err-reg-name', 'Please enter your full name (min. 2 characters).'); markInput(nameEl, true); valid = false;
+            }
+            if (!email) {
+                showError('err-reg-email', 'Email is required.'); markInput(emailEl, true); valid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showError('err-reg-email', 'Enter a valid email address.'); markInput(emailEl, true); valid = false;
+            }
+            if (!pw || pw.length < 6) {
+                showError('err-reg-password', 'Password must be at least 6 characters.'); markInput(pwEl, true); valid = false;
+            }
+            if (pw !== confirm) {
+                showError('err-reg-confirm', 'Passwords do not match.'); markInput(confirmEl, true); valid = false;
+            }
+            if (!termsEl.checked) {
+                showToast('Please accept the Terms of Service.', 'error'); valid = false;
+            }
+            if (!valid) return;
+
+            const users = getUsers();
+            if (users.find(u => u.email === email)) {
+                showError('err-reg-email', 'This email is already registered. Sign in instead.'); markInput(emailEl, true); return;
+            }
+
+            btn.classList.add('loading'); btn.disabled = true;
+            await fakeRequest(1100);
+
+            const newUser = { id: 'user-' + Date.now(), name: name, email: email, password: pw, created: new Date().toISOString().split('T')[0] };
+            users.push(newUser);
+            saveUsers(users);
+
+            const session = { id: newUser.id, name: newUser.name, email: newUser.email, loggedInAt: new Date().toISOString() };
+            sessionStorage.setItem('ql_session', JSON.stringify(session));
+
+            btn.classList.remove('loading'); btn.disabled = false;
+            showToast('Account created! Welcome, ' + name + '!', 'success');
+            setTimeout(function () { window.location.href = 'index.html'; }, 1400);
+        });
+    </script>
+
+</body>
+
+</html>

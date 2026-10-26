@@ -50,6 +50,7 @@
             list-style: none;
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
 
         nav ul li a {
@@ -62,6 +63,22 @@
         nav ul li a:hover,
         nav ul li a.active {
             color: #00d4ff;
+        }
+
+        .auth-btn {
+            display: inline-block;
+            padding: 0.45rem 1.2rem;
+            background: #00d4ff;
+            color: #1a1a2e !important;
+            border-radius: 50px;
+            font-weight: 700 !important;
+            transition: background 0.3s, transform 0.3s !important;
+        }
+
+        .auth-btn:hover {
+            background: #00b8d9;
+            transform: translateY(-1px);
+            color: #1a1a2e !important;
         }
 
         /* ── Hero ── */
@@ -205,6 +222,7 @@
                 <li><a href="skills.html">Practical Skills</a></li>
                 <li><a href="guidance.html">Career Guidance</a></li>
                 <li><a href="resources.html">Employment Resources</a></li>
+                <li><a href="auth.html" class="auth-btn">Sign In</a></li>
             </ul>
         </nav>
     </header>
